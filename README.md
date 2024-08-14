@@ -41,11 +41,11 @@ python app.py
 Feel free to fork this repository and submit pull requests. If you find any issues or have suggestions for improvements, please open an issue on the GitHub repository.
 
 ## References 
-Google Books API Documentation
-Flask Documentation
-scikit-learn Documentation
-TF-IDF Vectorizer - scikit-learn
-Linear Kernel - scikit-learn
+@Google Books API Documentation
+@Flask Documentation
+@scikit-learn Documentation
+@TF-IDF Vectorizer - scikit-learn
+@Linear Kernel - scikit-learn
 
 ## Contact 
 for questions or feedback, please reach out to kaur.simran1542@gmail.com
