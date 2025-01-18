@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendation System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #000000;
+            color: #f0e4d7;
+            overflow-x: hidden;
+            position: relative;
+            height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(8px);
+        }
+        h1 {
+            text-align: center;
+            color: #ffab91;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 2s ease-out;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        label {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #ffab91;
+            animation: fadeInUp 2s ease-out;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 15px;
+            border: 2px solid #ffab91;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #f0e4d7;
+            transition: border 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]::placeholder {
+            color: #ddd;
+            font-style: italic;
+        }
+        input[type="text"]:focus {
+            border-color: #ffab91;
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 10px rgba(255, 171, 145, 0.6);
+        }
+        button {
+            background: #ffab91;
+            color: #000;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background: #ff8a65;
+            transform: scale(1.05);
+        }
+        .book {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        .book:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+        .book img {
+            max-width: 120px;
+            border-radius: 6px;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+        .book img:hover {
+            transform: scale(1.15);
+        }
+        .book h2 {
+            font-size: 1.7rem;
+            margin-top: 0;
+            color: #ffab91;
+        }
+        .book p {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        a {
+            color: #ffab91;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .background-animation .book-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: #1e1e1e;
+            animation: zoomBackground 25s infinite linear;
+        }
+        @keyframes zoomBackground {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+        .book-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+            transition: opacity 0.5s ease, max-height 0.5s ease, transform 0.5s ease;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .book-details.active {
+            max-height: 600px; /* Adjust as needed */
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .book-details h3 {
+            color: #ffab91;
+            margin: 0 0 10px 0;
+        }
+        .book-details p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="book-animation"></div>
+    </div>
+    <div class="container">
+        <h1>Book Recommendation System</h1>
+        <form method="post">
+            <label for="title">Book Title:</label>
+            <input type="text" id="title" name="title" placeholder="Enter a book title..." required>
+            <br><br>
+            <button type="submit">Find Similar Books</button>
+        </form>
+
+        {% if similar_books %}
+            <h2>Recommended Books:</h2>
+            <div id="book-list">
+                {% for book in similar_books %}
+                    <div class="book" onclick="showDetails('{{ book.id }}')">
+                        {% if book.thumbnail %}
+                            <img src="{{ book.thumbnail }}" alt="{{ book.title }}">
+                        {% endif %}
+                        <div>
+                            <h2>{{ book.title }}</h2>
+                            <p><strong>Authors:</strong> {{ book.authors }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div id="book-details" class="book-details"></div>
+        {% else %}
+            <p>No similar books found.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        const bookDetails = {{ book_details|tojson }};
+        const detailsDiv = document.getElementById('book-details');
+
+        function showDetails(bookId) {
+            const book = bookDetails.find(b => b.id === bookId);
+            if (book) {
+                detailsDiv.innerHTML = `
+                    <h3>${book.title}</h3>
+                    <p><strong>Author(s):</strong> ${book.authors}</p>
+                    <p><strong>Description:</strong> ${book.description}</p>
+                `;
+                detailsDiv.classList.add('active');
+                setTimeout(() => {
+                    detailsDiv.classList.remove('active');
+                }, 10000); // Hide after 10 seconds
+            }
+        }
+    </script>
+</body>
+</html>
